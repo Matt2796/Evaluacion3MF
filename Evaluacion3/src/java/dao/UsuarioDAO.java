@@ -6,6 +6,7 @@
 package dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import modelos.Usuario;
 
@@ -25,6 +26,24 @@ public class UsuarioDAO extends Conexion {
         return r;
         }catch(Exception e){
             return -1;
+        }finally{
+            desconectar();
+        }
+    }
+        public Usuario obtenerUsuario(String usuario) throws ClassNotFoundException, SQLException{
+        String sentencia = "select * from usuario where usuario = ?";
+        try{
+        conectar();
+        PreparedStatement ps= obtenerPS(sentencia);
+        ps.setString(1, usuario);
+        ResultSet rs = ps.executeQuery();
+        Usuario u = null;
+        if(rs.next()){
+           u = new Usuario(rs.getString("usuario"),rs.getString("password"));
+        }
+        return u;
+        }catch(Exception e){
+            return null;
         }finally{
             desconectar();
         }

@@ -32,7 +32,7 @@ public class Salir extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
-        sesion.setAttribute("usuario", null);
+        sesion.setAttribute("admin", null);
         response.sendRedirect("index.jsp");
     }
 

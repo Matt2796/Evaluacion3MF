@@ -12,14 +12,19 @@ package modelos;
 public class Producto {
     private int id;
     private String nombre;
-    private String precio;
+    private int precio;
     
     public Producto(){
         
     }
 
-    public Producto(int id, String nombre, String precio) {
+   public Producto(int id, String nombre, int precio) {
         this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+
+    public Producto(String nombre, int precio) {
         this.nombre = nombre;
         this.precio = precio;
     }
@@ -32,7 +37,7 @@ public class Producto {
         return nombre;
     }
 
-    public String getPrecio() {
+    public int getPrecio() {
         return precio;
     }
 
@@ -44,7 +49,7 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
     }
     

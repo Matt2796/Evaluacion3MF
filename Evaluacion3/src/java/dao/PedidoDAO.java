@@ -8,6 +8,7 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import modelos.Estado;
 import modelos.Pedido;
 
@@ -18,12 +19,11 @@ import modelos.Pedido;
 public class PedidoDAO extends Conexion {
         public int registrarPedido(Pedido pedido) throws SQLException{
         try{
-            String sentencia ="Insert into pedido values (?,?,?)";
+            String sentencia ="Insert into pedido(correo,estado) values (?,?)";
             conectar();
             PreparedStatement ps = obtenerPS(sentencia);
-            ps.setInt(1, pedido.getId());
-            ps.setString(2, pedido.getCorreo());
-            ps.setInt(3, pedido.getEstado().getId());
+            ps.setString(1, pedido.getCorreo());
+            ps.setInt(2, pedido.getEstado().getId());
             return ps.executeUpdate();
         }catch(Exception e){
             return -1;
@@ -33,7 +33,7 @@ public class PedidoDAO extends Conexion {
     }
            public int modificarEstado(Pedido pedido) throws SQLException{
         try{
-            String sentencia ="update pedido id_estado=? where id = ?";
+            String sentencia ="update pedido set id_estado=? where id = ?";
             conectar();
             PreparedStatement ps = obtenerPS(sentencia);
             ps.setInt(1, pedido.getEstado().getId());
@@ -58,6 +58,25 @@ public class PedidoDAO extends Conexion {
                 p = new Pedido(rs.getInt("id"),rs.getString("correo"),e);
             }
             return p;
+        }catch(Exception e){
+            return null;
+        }finally{
+            desconectar();
+        }
+    }
+       public ArrayList<Pedido> obtenerPedidos() throws SQLException{
+        try{
+            String sentencia = "select * from v_pedido";
+            conectar();
+            PreparedStatement ps = obtenerPS(sentencia);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Pedido> pedidos = new ArrayList();
+            while(rs.next()){
+                Estado e = new Estado(rs.getInt("e_id"),rs.getString("e_nombre"));
+                pedidos.add(new Pedido(rs.getInt("id"),rs.getString("correo"),e
+                ));
+            }
+            return pedidos;
         }catch(Exception e){
             return null;
         }finally{

@@ -17,9 +17,19 @@ public class Pedido {
     public Pedido(){
         
     }
+    
     public Pedido(int id, String correo, Estado estado) {
         this.id = id;
         this.correo = correo;
+        this.estado = estado;
+    }
+
+    public Pedido(String correo, Estado estado){
+        this.correo = correo;
+        this.estado = estado;
+    }
+    public Pedido(int id, Estado estado) {
+        this.id = id;
         this.estado = estado;
     }
 
