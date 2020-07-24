@@ -54,7 +54,31 @@ public class ControladorPedido extends HttpServlet {
     }
     
     private void registrarPedido(HttpServletRequest request,HttpServletResponse response) throws IOException{
-        
+        try{
+            String correo = request.getParameter("correo");
+            int estado = 0;
+
+            if(correo.equals("")){
+                response.sendRedirect("index.jsp?msj=Ponga su correo");
+            }else{
+            EstadoDAO ed = new EstadoDAO();
+            Pedido nuevoPedido = new Pedido (correo, ed.obtenerEstado(estado));
+            PedidoDAO pd = new PedidoDAO();
+                if(pd.obtenerPedido(nuevoPedido.getId())==null){
+                    int respuesta = pd.registrarPedido(nuevoPedido);
+                    if(respuesta==1){
+                    response.sendRedirect("index.jsp?msj=Producto registrado");
+                    }else{
+                    response.sendRedirect("index.jsp?msj=Producto no se pudo registrar");
+                    }
+                }else{
+                    response.sendRedirect("index.jsp?msj=Producto ya existe");
+                }
+            }            
+        }
+        catch(Exception e){
+            
+        }
     }
     private void Pendiente(HttpServletRequest request, HttpServletResponse response) throws IOException{
          try{

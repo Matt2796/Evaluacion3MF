@@ -28,7 +28,7 @@
             </a>
         </menu>
         <table border="1px">
-            <form >
+            <form action="ControladorPedido" >
             <tr>
                 <td>ID</td>
                 <td>Nombre</td>
@@ -49,19 +49,18 @@
                  <td> <input type="text" name="correo"/>  </td>
                 <td><input type="submit" value="Iniciar Sesion"/></td>
             </tr>
+            <input type="hidden" name="accion" value="1"/>
             </form>
             </table>
             <br>
             <br>
             <table border="1px">
             <tr>
-            
+            <form action="pedidoscorreo.jsp?correo=">
                 <td> Ingrese correo para <br> buscar pedido: </td>
                 <td> <input type="text" name="correo"/> </td>
-                <% String correo = request.getParameter("correo"); %>
-                <td> <a href="pedidoscorreo.jsp?correo=<% out.println(correo);%>">
-                        <button type="button">Buscar pedidos</button>
-                    </a></td>
+                <td><input type="submit" value="Iniciar Sesion"/></td>
+                <form>
             </tr>
             </table>
                         <% if(request.getParameter("msj")!= null){%>

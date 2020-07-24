@@ -45,12 +45,12 @@ public class PedidoDAO extends Conexion {
             desconectar();
         }
     }
-               public Pedido obtenerPedido(String correo) throws SQLException{
+               public Pedido obtenerPedido(int id) throws SQLException{
         try{
-            String sentencia = "select * from v_pedido where correo = ?";
+            String sentencia = "select * from v_pedido where id = ?";
             conectar();
             PreparedStatement ps = obtenerPS(sentencia);
-            ps.setString(1, correo);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             Pedido p = null;
             if(rs.next()){
@@ -69,6 +69,26 @@ public class PedidoDAO extends Conexion {
             String sentencia = "select * from v_pedido";
             conectar();
             PreparedStatement ps = obtenerPS(sentencia);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Pedido> pedidos = new ArrayList();
+            while(rs.next()){
+                Estado e = new Estado(rs.getInt("e_id"),rs.getString("e_nombre"));
+                pedidos.add(new Pedido(rs.getInt("id"),rs.getString("correo"),e
+                ));
+            }
+            return pedidos;
+        }catch(Exception e){
+            return null;
+        }finally{
+            desconectar();
+        }
+    }
+              public ArrayList<Pedido> obtenerPedidosCorreo(String correo) throws SQLException{
+        try{
+            String sentencia = "select * from v_pedido where correo = ?";
+            conectar();
+            PreparedStatement ps = obtenerPS(sentencia);
+            ps.setString(1, correo);
             ResultSet rs = ps.executeQuery();
             ArrayList<Pedido> pedidos = new ArrayList();
             while(rs.next()){
